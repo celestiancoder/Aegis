@@ -51,11 +51,15 @@ const Navbar = () => {
                 Pricing
               </Link>
               <Link href="/" className="text-black/90 hover:text-gray-100 transition-colors">
+                Sign-up
+              </Link>
+              
+              <Link href="/" className="text-black/90 hover:text-gray-100 transition-colors">
                 Log-in
               </Link>
               
               
-            </div>
+            </div>gi
             
             <button 
               className="md:hidden text-white"
