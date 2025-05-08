@@ -12,7 +12,7 @@ export default function Home() {
             
             <div className="order-1 flex flex-col justify-center">
               <div className="font-extrabold h-48 flex items-center text-4xl md:text-6xl">
-                YOUR BEST AGENT
+                YOUR BEST HELPER
               </div>
               <div className="flex justify-center md:justify-start">
                 <div className="inline-block px-6 py-3 rounded-full border-2 border-gray-800 bg-white  transition-colors cursor-pointer text-lg font-medium hover:scale-110">

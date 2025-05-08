@@ -3,11 +3,17 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X } from 'lucide-react';
+import { createSessionClient } from '@/lib/appwrite';
+import { useRouter } from 'next/navigation';
+import { getCurrentUser, signOutUser } from '@/lib/actions/user.actions';
+import { Button } from '../ui/button';
+import Logoutform from '../logoutform';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -25,7 +31,22 @@ const Navbar = () => {
     }
   }, [isMobileMenuOpen]);
 
-  
+  useEffect(() => {
+    const checkUserSession = async () => {
+      try {
+        // Try to create session client - will throw error if no session exists
+        const client = await getCurrentUser();
+        
+        // If we get here, we have a valid session
+        setIsLoggedIn(true);
+      } catch (error) {
+        // No valid session exists
+        setIsLoggedIn(false);
+      }
+    };
+
+    checkUserSession();
+  }, []);
 
   return (
     <>
@@ -39,7 +60,7 @@ const Navbar = () => {
             
             <Link href="/" className="flex items-center space-x-2">
               <span className="text-2xl font-bold ">
-                Aegis
+                Eqihelper
               </span>
             </Link>
 
@@ -50,12 +71,21 @@ const Navbar = () => {
               <Link href="/" className="text-black/90 hover:text-gray-100 transition-colors">
                 Pricing
               </Link>
-              <Link href="/" className="text-black/90 hover:text-gray-100 transition-colors">
-                sign-up
-              </Link>
-              <Link href="/" className="text-black/90 hover:text-gray-100 transition-colors">
-                Log-in
-              </Link>
+              
+              {isLoggedIn ? (
+                <>
+                 <Logoutform />
+                </>
+              ) : (
+                <>
+                  <Link href="/sign-up" className="text-black/90 hover:text-gray-100 transition-colors">
+                    Sign-up
+                  </Link>
+                  <Link href="/sign-in" className="text-black/90 hover:text-gray-100 transition-colors">
+                    Log-in
+                  </Link>
+                </>
+              )}
               
               
             </div>
@@ -89,14 +119,14 @@ const Navbar = () => {
                 Pricing
               </Link>
               <Link 
-                href="/" 
+                href="/sign-up" 
                 className="block text-xl text-white/90 hover:text-white transition-colors py-3"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 Sign-up
               </Link>
               <Link 
-                href="/novels" 
+                href="/sign-in" 
                 className="block text-xl text-white/90 hover:text-white transition-colors py-3"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
