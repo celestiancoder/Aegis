@@ -58,22 +58,23 @@ const Navbar = ({fullName}:{fullName:string}) => {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between px-4 py-3">
             
-            <Link href="/" className="flex items-center space-x-2">
-              <span className="text-2xl font-bold ">
+            <Link href="/" className="flex items-center space-x-2 text-amber-600">
+              <span className="text-2xl font-bold">
                 Eqihelper
               </span>
             </Link>
 
             <div className="hidden md:flex items-center space-x-8">
-              <Link href="/" className="text-black/90 hover:text-gray-100 transition-colors">
-                About us
-              </Link>
+              
               
               
               {isLoggedIn ? (
                 <>
                 <Link href="/practice" className="text-black/90 hover:text-gray-100 transition-colors">
                 Practice
+              </Link>
+              <Link href="/chat" className="text-black/90 hover:text-gray-100 transition-colors">
+                Chat
               </Link>
                  <Logoutform />
                  
@@ -110,35 +111,36 @@ const Navbar = ({fullName}:{fullName:string}) => {
         {isMobileMenuOpen && (
         <div className="md:hidden fixed inset-0 z-40 bg-black/95 backdrop-blur-lg flex flex-col">
           <div className="flex-1 px-4 pt-20 pb-6 flex flex-col">
-            <div className="space-y-6 flex-1">
-            <Link 
-                href="/" 
-                className="block text-xl text-white/90 hover:text-white transition-colors py-3"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                About us
+            <div className="space-y-6 flex-1 ">
+             
+                {isLoggedIn ? (
+                <>
+                <div className='flex flex-col m'>
+                <Link href="/practice" className="text-white hover:text-gray-100 transition-colors">
+                Practice
               </Link>
-              <Link 
-                href="/" 
-                className="block text-xl text-white/90 hover:text-white transition-colors py-3"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Pricing
+              <Link href="/chat" className="text-white hover:text-gray-100 transition-colors mt-5">
+                Chat
               </Link>
-              <Link 
-                href="/sign-up" 
-                className="block text-xl text-white/90 hover:text-white transition-colors py-3"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Sign-up
-              </Link>
-              <Link 
-                href="/sign-in" 
-                className="block text-xl text-white/90 hover:text-white transition-colors py-3"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                Log-in
-              </Link>
+              </div>
+                 <Logoutform />
+                 
+                 <div>
+                    <p className='text-gray-700'>|{fullName}</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Link href="/sign-up" className="text-black/90 hover:text-gray-100 transition-colors">
+                    Sign-up
+                  </Link>
+                  <Link href="/sign-in" className="text-black/90 hover:text-gray-100 transition-colors">
+                    Log-in
+                  </Link>
+                  
+                 
+                </>
+              )}
               
             </div>           
           </div>

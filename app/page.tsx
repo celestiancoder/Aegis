@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Home=async()=> {
   const currentUser=await getCurrentUser()
-  if(!currentUser) return redirect("/")
+  if(!currentUser) return redirect("/sign-in")
   return (
     <div>
       <div className="min-h-screen bg-white">

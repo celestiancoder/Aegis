@@ -4,6 +4,7 @@ export const appwriteConfig={
     databaseId:process.env.NEXT_PUBLIC_APPWRITE_DATABASE!,
     usersCollectionId:process.env.NEXT_PUBLIC_USERS_COLLECTION!,
     secretKey:process.env.NEXT_APPWRITE_KEY!,
-    hfkey:process.env.HF_API_KEY!,
-    responseCollectionId:process.env.NEXT_PUBLIC_RESPONSES_COLLECTION!,
+    // hfkey:process.env.HF_API_KEY!,
+    chatCollectionId:process.env.NEXT_PUBLIC_CHAT_COLLECTION!,
+    geminikey:process.env.GEMINI_API_KEY!,
 }

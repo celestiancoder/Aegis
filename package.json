@@ -23,6 +23,7 @@
     "framer-motion": "^12.10.0",
     "input-otp": "^1.4.2",
     "lucide-react": "^0.488.0",
+    "motion": "^12.10.5",
     "next": "15.3.0",
     "node-appwrite": "^16.0.0",
     "openai": "^4.97.0",
