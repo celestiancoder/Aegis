@@ -126,20 +126,40 @@ export const signInUser = async ({ email }: { email: string }) => {
     }
   };
 
+  // export const getCurrentUser = async () => {
+  //   const { databases, account } = await createSessionClient();
+  
+  //   const result = await account.get();
+  
+  //   const user = await databases.listDocuments(
+  //     appwriteConfig.databaseId,
+  //     appwriteConfig.usersCollectionId,
+  //     [Query.equal("accountId", result.$id)],
+  //   );
+  
+  //   if (user.total <= 0) return null;
+  
+  //   return parseStringify(user.documents[0]);
+  // };
+
   export const getCurrentUser = async () => {
+  try {
     const { databases, account } = await createSessionClient();
-  
-    const result = await account.get();
-  
+    const userResult = await account.get();
     const user = await databases.listDocuments(
       appwriteConfig.databaseId,
       appwriteConfig.usersCollectionId,
-      [Query.equal("accountId", result.$id)],
+      [Query.equal("accountId", userResult.$id)],
     );
-  
     if (user.total <= 0) return null;
-  
     return parseStringify(user.documents[0]);
-  };
+  } catch (error: any) {
+    if (error.message === "No session") {
+      return null;
+    }
+    console.error("Error getting current user:", error);
+    return null; 
+  }
+};
 
   

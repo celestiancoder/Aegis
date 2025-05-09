@@ -1,11 +1,15 @@
 import Navbar from "@/components/navbar/navbar";
+import { getCurrentUser } from "@/lib/actions/user.actions";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 
-export default function Home() {
+const Home=async()=> {
+  const currentUser=await getCurrentUser()
+  if(!currentUser) return redirect("/")
   return (
     <div>
       <div className="min-h-screen bg-white">
-        <Navbar />
+        <Navbar {...currentUser}/>
         <div className="pt-60 px-4 md:px-20"> 
           
           <div className="flex flex-col md:grid md:grid-cols-2 gap-8">
@@ -33,3 +37,4 @@ export default function Home() {
     </div>
   );
 }
+export default Home;

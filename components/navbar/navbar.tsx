@@ -9,7 +9,7 @@ import { getCurrentUser, signOutUser } from '@/lib/actions/user.actions';
 import { Button } from '../ui/button';
 import Logoutform from '../logoutform';
 
-const Navbar = () => {
+const Navbar = ({fullName}:{fullName:string}) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -34,13 +34,13 @@ const Navbar = () => {
   useEffect(() => {
     const checkUserSession = async () => {
       try {
-        // Try to create session client - will throw error if no session exists
+       
         const client = await getCurrentUser();
         
-        // If we get here, we have a valid session
+        
         setIsLoggedIn(true);
       } catch (error) {
-        // No valid session exists
+        
         setIsLoggedIn(false);
       }
     };
@@ -68,13 +68,18 @@ const Navbar = () => {
               <Link href="/" className="text-black/90 hover:text-gray-100 transition-colors">
                 About us
               </Link>
-              <Link href="/" className="text-black/90 hover:text-gray-100 transition-colors">
-                Pricing
-              </Link>
+              
               
               {isLoggedIn ? (
                 <>
+                <Link href="/practice" className="text-black/90 hover:text-gray-100 transition-colors">
+                Practice
+              </Link>
                  <Logoutform />
+                 
+                 <div>
+                    <p className='text-gray-700'>|{fullName}</p>
+                  </div>
                 </>
               ) : (
                 <>
@@ -84,6 +89,8 @@ const Navbar = () => {
                   <Link href="/sign-in" className="text-black/90 hover:text-gray-100 transition-colors">
                     Log-in
                   </Link>
+                  
+                 
                 </>
               )}
               

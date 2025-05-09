@@ -8,7 +8,7 @@ const Logoutform = () => {
   return (
     <div>
       <form action={logoutAction}>
-        <Button type='submit' className='flex-center h-[52px] min-w-[54px] items-center rounded-full bg-amber-500 p-0 text-brand shadow-none transition-all hover:bg-amber-300 '>
+        <Button type='submit' className='flex-center  h-[52px] min-w-[67px] items-center rounded-xl bg-amber-500 p-0 text-brand shadow-none transition-all hover:bg-amber-300 cursor-pointer'>
                 Log-out
         </Button>
       </form>
