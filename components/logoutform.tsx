@@ -1,6 +1,4 @@
-import { signOutUser } from '@/lib/actions/user.actions'
 import React from 'react'
-import { Form } from 'react-hook-form'
 import { Button } from './ui/button'
 import { logoutAction } from '@/lib/actions/logout'
 

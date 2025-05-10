@@ -2,6 +2,12 @@ import { NextResponse } from 'next/server';
 import { getAppwriteClient } from '@/lib/appwrite-session';
 import { ID } from 'node-appwrite';
 
+
+interface AppError {
+  message: string;
+  // [key: string]: any; 
+}
+
 export async function POST(req: Request) {
   try {
     const { databases, userId } = await getAppwriteClient();
@@ -26,9 +32,11 @@ export async function POST(req: Request) {
     );
 
     return NextResponse.json(result);
-  } catch (error: any) {
+  } catch (error: unknown) {
+ 
+    const appError = error as AppError;
     return NextResponse.json(
-      { error: error.message },
+      { error: appError.message || 'Unknown error occurred' },
       { status: 500 }
     );
   }

@@ -18,7 +18,7 @@ import Link from 'next/link'
 import { createAccount } from '@/lib/actions/user.actions'
 import OTPModal from './OTPModal'
 import { signInUser } from '@/lib/actions/user.actions'
-import { parseStringify } from '@/lib/utils'
+
 
 
 type FormType="sign-in"|"sign-up"
@@ -70,7 +70,7 @@ const AuthForm = ({type}:{type:FormType}) => {
     <>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex max-h-[800px] w-4/5 max-w-[400px] flex-col justify-center space-y-6 transition-all lg:h-full lg:space-y-8 ">
-      <h1 className='text-5xl text-amber-500 text-center font-extrabold'>Aegis</h1>
+      <h1 className='text-5xl text-purple-300 text-center font-extrabold'>Aegis</h1>
       <h1 className='text-[34px] leading-[42px] font-bold text-center md:text-left'>{type==="sign-in"?"Sign In":"Sign Up" }</h1>
         {type==="sign-up" && (<FormField
           control={form.control}
@@ -113,7 +113,7 @@ const AuthForm = ({type}:{type:FormType}) => {
             </FormItem>
           )}
         />
-        <Button type="submit" className='h-[50px] bg-amber-600 hover:bg-amber-300 transition-all rounded-full button cursor-pointer' disabled={isLoading}>{type==="sign-in"?"Sign In":"Sign Up" }
+        <Button type="submit" className='h-[50px] bg-[#0B1940] hover:bg-purple-300 transition-all rounded-full button cursor-pointer' disabled={isLoading}>{type==="sign-in"?"Sign In":"Sign Up" }
           {isLoading && (
             <div style={{ display: "flex", gap: "8px" }}>
             {[0, 1, 2].map((index) => (

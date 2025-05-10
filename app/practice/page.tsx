@@ -9,13 +9,28 @@ import Navbar from '@/components/navbar/navbar';
 import { getCurrentUser } from '@/lib/actions/user.actions';
 import { Sparkles, RotateCw } from 'lucide-react';
 
-export default function ResponsePractice() {
-  const [currentUser, setCurrentUser] = useState<any>(null);
+// Define proper types for the user and error
+type User = {
+  accountId: string;
+  fullName: string;
+  // Add other user properties as needed
+};
+
+// Error type interface
+interface ApiError {
+  message: string;
+  [key: string]: unknown;
+}
+
+export default  function ResponsePractice() {
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [prompt, setPrompt] = useState('');
   const [aiResponse, setAiResponse] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const router = useRouter();
+
+  //  const currentUser = await getCurrentUser();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -24,7 +39,10 @@ export default function ResponsePractice() {
         if (!user) {
           router.push('/sign-in');
         } else {
-          setCurrentUser(user);
+          setCurrentUser({
+            accountId: user.accountId,
+            fullName: user.fullName || 'User' // Provide default value
+          })
         }
       } catch (err) {
         console.error("Failed to fetch user:", err);
@@ -56,10 +74,13 @@ export default function ResponsePractice() {
       const data = await response.json();
       setAiResponse(data.response);
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error("Error:", err);
-      setError(err.message);
-      if (err.message.includes('Unauthorized')) {
+      
+      const apiError = err as ApiError;
+      setError(apiError.message || 'An unknown error occurred');
+      
+      if (apiError.message?.includes('Unauthorized')) {
         router.push('/sign-in');
       }
     } finally {
@@ -75,7 +96,7 @@ export default function ResponsePractice() {
         <div className="absolute bottom-10 left-1/3 w-64 h-64 rounded-full bg-gradient-to-r from-pink-500/20 to-purple-600/20 blur-2xl"></div>
       </div>
       
-      <Navbar {...currentUser} />
+            {currentUser && <Navbar fullName={currentUser.fullName} />}
        <div className="max-w-3xl mx-auto mt-20 text-center">
           <p className="text-blue-300 text-2xl">
             Practice makes perfect. Try different discriminatory scenarios to build your confidence.
@@ -102,7 +123,7 @@ export default function ResponsePractice() {
             <CardContent className="pt-6 pb-4 space-y-6">
               <div className="space-y-3">
                 <label htmlFor="prompt" className="block text-sm font-medium text-blue-300">
-                  Enter a comment you'd like to practice responding to:
+                  Enter a comment you would like to practice responding to:
                 </label>
                 <Textarea
                   id="prompt"

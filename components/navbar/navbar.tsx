@@ -37,6 +37,7 @@ const Navbar = ({ fullName }: { fullName: string }) => {
         setIsLoggedIn(!!client);
       } catch (error) {
         setIsLoggedIn(false);
+        console.error(error)
       }
     };
 

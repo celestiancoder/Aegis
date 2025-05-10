@@ -22,13 +22,11 @@ import { useRouter } from 'next/navigation'
 
 
 
-
-
 const OTPModal = ({accountId,email}:{accountId:string,email:string}) => {
   const router=useRouter()
   const[isOpen,setIsOpen]=useState(true)
   const [password, setPassword] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const [, setIsLoading] = useState(false)
 
   const handleSubmit=async(e:React.MouseEvent<HTMLButtonElement>)=>{
     e.preventDefault()
@@ -38,6 +36,7 @@ const OTPModal = ({accountId,email}:{accountId:string,email:string}) => {
       if(sessionId) router.push('/')
     } catch (error) {
       console.log("failed to verify otp")
+      console.error(error)
     }
     setIsLoading(false)
   }

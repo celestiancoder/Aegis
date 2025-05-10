@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/components/ui/card';
 import { getCurrentUser } from '@/lib/actions/user.actions';
-import { ID, Client, Databases, Query, Models, RealtimeResponseEvent } from 'appwrite';
+import { ID, Client, Databases, Query, RealtimeResponseEvent } from 'appwrite';
 import { appwriteConfig } from '@/lib/appwrite/config';
 import { Trash2, Send, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -18,14 +18,22 @@ type Message = {
   timestamp: string;
 };
 
-export default function ChatPage() {
+
+type User = {
+  accountId: string;
+  fullName: string;
+
+};
+
+export default  function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
-  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isDeletingMessage, setIsDeletingMessage] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  //  const currentUser = await getCurrentUser();
 
   const [client] = useState(new Client()
     .setEndpoint(appwriteConfig.endpointUrl)
@@ -40,7 +48,10 @@ export default function ChatPage() {
         if (!user) {
           router.push('/sign-in');
         } else {
-          setCurrentUser(user);
+          setCurrentUser({
+            accountId: user.accountId,
+            fullName: user.fullName || 'User' // Provide default value
+          });
         }
       } catch (err) {
         console.error("Failed to fetch user:", err);
@@ -84,7 +95,7 @@ export default function ChatPage() {
     };
 
     fetchData();
-  }, []);
+  }, [databases]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -159,7 +170,8 @@ export default function ChatPage() {
       console.error('Error setting up real-time updates:', error);
       return () => {};
     }
-  }, [currentUser, client, appwriteConfig.databaseId, appwriteConfig.chatCollectionId]);
+
+  }, [currentUser, client]);
 
   if (isLoading) {
     return (
@@ -177,7 +189,7 @@ export default function ChatPage() {
         <div className="absolute bottom-10 left-1/3 w-64 h-64 rounded-full bg-gradient-to-r from-pink-500/20 to-purple-600/20 blur-2xl"></div>
       </div>
       
-      <Navbar {...currentUser}/>
+     {currentUser && <Navbar fullName={currentUser.fullName} />}
       <div className="max-w-3xl mx-auto mt-20 text-center">
           <p className="text-blue-300 text-2xl">
             Connect with people around the world to discuss equality challenges and share solutions.

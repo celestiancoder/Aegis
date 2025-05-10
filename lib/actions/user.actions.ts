@@ -142,7 +142,7 @@ export const signInUser = async ({ email }: { email: string }) => {
   //   return parseStringify(user.documents[0]);
   // };
 
-  export const getCurrentUser = async () => {
+export const getCurrentUser = async () => {
   try {
     const { databases, account } = await createSessionClient();
     const userResult = await account.get();
@@ -153,12 +153,20 @@ export const signInUser = async ({ email }: { email: string }) => {
     );
     if (user.total <= 0) return null;
     return parseStringify(user.documents[0]);
-  } catch (error: any) {
-    if (error.message === "No session") {
+  } catch (error: unknown) {
+    interface AppwriteError {
+      message: string;
+      code?: number;
+      [key: string]: unknown;
+    }
+
+    const appwriteError = error as AppwriteError;
+    
+    if (appwriteError.message === "No session") {
       return null;
     }
     console.error("Error getting current user:", error);
-    return null; 
+    return null;
   }
 };
 

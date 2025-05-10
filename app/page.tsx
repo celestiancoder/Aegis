@@ -2,7 +2,7 @@ import Navbar from "@/components/navbar/navbar";
 import { getCurrentUser } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { TypewriterSection } from "@/components/TyoewriterSection";
+
 
 
 const Home = async () => {
@@ -22,8 +22,8 @@ const Home = async () => {
       <div className="relative pt-24 px-4 md:px-16 lg:px-20 max-w-7xl mx-auto">
         <div className="flex flex-col md:grid md:grid-cols-2 gap-8 items-center">
           <div className="order-1 flex flex-col justify-center space-y-6">
-             <TypewriterSection />
-            {/* <div className="space-y-2">
+             
+            <div className="space-y-2">
               <h1 className="font-extrabold text-4xl md:text-5xl lg:text-6xl bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent">
                 EQUALITY CHAMPIONS
               </h1>
@@ -42,7 +42,7 @@ const Home = async () => {
               <Link href="/chat" className="px-6 py-3 rounded-full border-2 border-blue-300 text-blue-200 font-medium hover:bg-blue-900/30 hover:scale-105 transition duration-300">
                 Connect Globally
               </Link>
-            </div> */}
+            </div>
           </div>
          
         </div>
