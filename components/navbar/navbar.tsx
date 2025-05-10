@@ -68,7 +68,6 @@ const Navbar = ({ fullName }: { fullName: string }) => {
               </span>
             </Link>
 
-            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-6">
               {isLoggedIn ? (
                 <>
@@ -118,7 +117,6 @@ const Navbar = ({ fullName }: { fullName: string }) => {
               )}
             </div>
 
-            {/* Mobile Menu Button */}
             <button
               className="md:hidden p-2 rounded-md text-blue-300 hover:text-white focus:outline-none"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -129,7 +127,6 @@ const Navbar = ({ fullName }: { fullName: string }) => {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div className="md:hidden fixed inset-0 z-40 bg-[#0B1940]/95 backdrop-blur-lg pt-16">
           <div className="px-6 py-4 space-y-6">

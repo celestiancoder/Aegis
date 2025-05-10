@@ -2,7 +2,8 @@ import Navbar from "@/components/navbar/navbar";
 import { getCurrentUser } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+import { TypewriterSection } from "@/components/TyoewriterSection";
+
 
 const Home = async () => {
   const currentUser = await getCurrentUser();
@@ -17,12 +18,12 @@ const Home = async () => {
       </div>
       
       <Navbar {...currentUser} />
-      
-      {/* Hero Section */}
+
       <div className="relative pt-24 px-4 md:px-16 lg:px-20 max-w-7xl mx-auto">
         <div className="flex flex-col md:grid md:grid-cols-2 gap-8 items-center">
           <div className="order-1 flex flex-col justify-center space-y-6">
-            <div className="space-y-2">
+             <TypewriterSection />
+            {/* <div className="space-y-2">
               <h1 className="font-extrabold text-4xl md:text-5xl lg:text-6xl bg-gradient-to-r from-purple-400 to-pink-300 bg-clip-text text-transparent">
                 EQUALITY CHAMPIONS
               </h1>
@@ -41,13 +42,12 @@ const Home = async () => {
               <Link href="/chat" className="px-6 py-3 rounded-full border-2 border-blue-300 text-blue-200 font-medium hover:bg-blue-900/30 hover:scale-105 transition duration-300">
                 Connect Globally
               </Link>
-            </div>
+            </div> */}
           </div>
          
         </div>
       </div>
 
-      {/* SDG Section */}
       <div className="py-16 px-4 md:px-16 lg:px-20 max-w-7xl mx-auto relative">
         <h2 className="text-3xl font-bold text-center mb-12 text-white">Supporting Sustainable Development Goals</h2>
         <div className="grid md:grid-cols-2 gap-8">
@@ -79,7 +79,6 @@ const Home = async () => {
         </div>
       </div>
 
-      {/* Features Section */}
       <div className="py-16 px-4 md:px-16 lg:px-20 bg-[#071430] relative">
         <div className="absolute top-1/2 right-0 w-96 h-96 rounded-full bg-gradient-to-r from-blue-500/10 to-teal-300/10 blur-2xl"></div>
         
@@ -119,10 +118,6 @@ const Home = async () => {
         </div>
       </div>
 
- 
-
-
-      {/* Footer */}
       <footer className="py-8 px-4 bg-[#051027] text-blue-100 border-t border-blue-900/50">
         <div className="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
           <div>

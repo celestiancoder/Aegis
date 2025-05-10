@@ -70,7 +70,7 @@ const AuthForm = ({type}:{type:FormType}) => {
     <>
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex max-h-[800px] w-4/5 max-w-[400px] flex-col justify-center space-y-6 transition-all lg:h-full lg:space-y-8 ">
-      <h1 className='text-5xl text-amber-500 text-center font-extrabold'>Equihelper</h1>
+      <h1 className='text-5xl text-amber-500 text-center font-extrabold'>Aegis</h1>
       <h1 className='text-[34px] leading-[42px] font-bold text-center md:text-left'>{type==="sign-in"?"Sign In":"Sign Up" }</h1>
         {type==="sign-up" && (<FormField
           control={form.control}

@@ -1,4 +1,3 @@
-// app/api/chat/route.ts
 import { NextResponse } from 'next/server';
 import { getAppwriteClient } from '@/lib/appwrite-session';
 import { ID } from 'node-appwrite';
