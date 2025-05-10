@@ -36,11 +36,16 @@ export default  function ChatPage() {
   const router = useRouter();
   
 
-  const [client] = useState(new Client()
-    .setEndpoint(appwriteConfig.endpointUrl)
-    .setProject(appwriteConfig.projectId));
+const [client, setClient] = useState<Client | null>(null);
+  const [databases, setDatabases] = useState<Databases | null>(null);
 
-  const [databases] = useState(new Databases(client));
+  useEffect(() => {
+    const newClient = new Client()
+      .setEndpoint(appwriteConfig.endpointUrl)
+      .setProject(appwriteConfig.projectId);
+    setClient(newClient);
+    setDatabases(new Databases(newClient));
+  }, []);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -51,7 +56,7 @@ export default  function ChatPage() {
         } else {
           setCurrentUser({
             accountId: user.accountId,
-            fullName: user.fullName || 'User' // Provide default value
+            fullName: user.fullName || 'User'
           });
         }
       } catch (err) {
@@ -65,6 +70,7 @@ export default  function ChatPage() {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (databases) {
       try {
         const user = await getCurrentUser();
         if (!user) {
@@ -93,7 +99,7 @@ export default  function ChatPage() {
       } finally {
         setIsLoading(false);
       }
-    };
+    };}
 
     fetchData();
   }, [databases]);
@@ -105,7 +111,7 @@ export default  function ChatPage() {
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newMessage.trim() || !currentUser) return;
-
+    if (databases) {
     try {
       await databases.createDocument(
         appwriteConfig.databaseId,
@@ -122,11 +128,11 @@ export default  function ChatPage() {
     } catch (error) {
       console.error('Error sending message:', error);
     }
-  };
+  };}
 
   const handleDeleteMessage = async (messageId: string) => {
     if (!currentUser) return;
-    
+    if (databases) {
     try {
       setIsDeletingMessage(messageId);
       
@@ -143,11 +149,11 @@ export default  function ChatPage() {
     } finally {
       setIsDeletingMessage(null);
     }
-  };
+  };}
 
   useEffect(() => {
     if (!currentUser) return;
-    
+    if (client) {
     try {
       const unsubscribe = client.subscribe(
         `databases.${appwriteConfig.databaseId}.collections.${appwriteConfig.chatCollectionId}.documents`,
@@ -170,7 +176,7 @@ export default  function ChatPage() {
     } catch (error) {
       console.error('Error setting up real-time updates:', error);
       return () => {};
-    }
+    }}
 
   }, [currentUser, client]);
 
