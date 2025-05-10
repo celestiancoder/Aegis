@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import { useEffect, useState, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,7 @@ import { appwriteConfig } from '@/lib/appwrite/config';
 import { Trash2, Send, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/navbar/navbar';
+
 
 type Message = {
   $id: string;
@@ -33,7 +34,7 @@ export default  function ChatPage() {
   const [isDeletingMessage, setIsDeletingMessage] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
-  //  const currentUser = await getCurrentUser();
+  
 
   const [client] = useState(new Client()
     .setEndpoint(appwriteConfig.endpointUrl)

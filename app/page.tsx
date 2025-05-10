@@ -1,8 +1,8 @@
+export const dynamic = 'force-dynamic';
 import Navbar from "@/components/navbar/navbar";
 import { getCurrentUser } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-
 
 
 const Home = async () => {
