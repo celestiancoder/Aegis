@@ -6,7 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from '@/componen
 import { getCurrentUser } from '@/lib/actions/user.actions';
 import { ID, Client, Databases, Query, Models, RealtimeResponseEvent } from 'appwrite';
 import { appwriteConfig } from '@/lib/appwrite/config';
-import { Trash2 } from 'lucide-react';
+import { Trash2, Send, Users } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/navbar/navbar';
 
@@ -25,7 +25,7 @@ export default function ChatPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isDeletingMessage, setIsDeletingMessage] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-    const router = useRouter();
+  const router = useRouter();
 
   const [client] = useState(new Client()
     .setEndpoint(appwriteConfig.endpointUrl)
@@ -33,8 +33,7 @@ export default function ChatPage() {
 
   const [databases] = useState(new Databases(client));
 
-
-    useEffect(() => {
+  useEffect(() => {
     const fetchUser = async () => {
       try {
         const user = await getCurrentUser();
@@ -68,7 +67,6 @@ export default function ChatPage() {
           [Query.orderDesc('timestamp'), Query.limit(50)]
         );
         
-       
         const fetchedMessages = response.documents.map(doc => ({
           $id: doc.$id,
           message: doc.message,
@@ -87,7 +85,6 @@ export default function ChatPage() {
 
     fetchData();
   }, []);
-
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -166,85 +163,140 @@ export default function ChatPage() {
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+      <div className="flex justify-center items-center h-screen bg-[#0B1940] text-white">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-300"></div>
       </div>
     );
   }
 
   return (
-    
-    <div>
-        <Navbar {...currentUser}/>
-    <div className="container mx-auto py-30">
-      <Card className="max-w-3xl mx-auto">
-        <CardHeader>
-          <CardTitle>Chat Room</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-96 overflow-y-auto mb-4 space-y-2 flex flex-col-reverse">
-            {messages.length === 0 ? (
-              <p className="text-center text-gray-500">No messages yet. Be the first to chat!</p>
-            ) : (
-              messages.map((message) => (
-                <div
-                  key={message.$id}
-                  className={`flex ${message.userId === currentUser?.accountId ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div
-                    className={`relative max-w-xs p-3 rounded-lg ${
-                      message.userId === currentUser?.accountId 
-                        ? 'bg-blue-500 text-white' 
-                        : 'bg-gray-200 text-gray-800'
-                    }`}
-                  >
-                    <div className="font-semibold">{message.username}</div>
-                    <div>{message.message}</div>
-                    <div className="text-xs opacity-70">
-                      {new Date(message.timestamp).toLocaleTimeString()}
-                    </div>
-                    
-                   
-                    {message.userId === currentUser?.accountId && (
-                      <button
-                        onClick={() => handleDeleteMessage(message.$id)}
-                        disabled={isDeletingMessage === message.$id}
-                        className={`absolute top-1 right-1 p-1 rounded-full 
-                          ${message.userId === currentUser?.accountId 
-                            ? 'text-white hover:bg-blue-600' 
-                            : 'text-gray-600 hover:bg-gray-300'} 
-                          transition-colors`}
-                        aria-label="Delete message"
-                      >
-                        {isDeletingMessage === message.$id ? (
-                          <div className="h-4 w-4 rounded-full border-2 border-t-transparent animate-spin" />
-                        ) : (
-                          <Trash2 size={16} />
-                        )}
-                      </button>
-                    )}
-                  </div>
+    <div className="min-h-screen bg-[#0B1940] relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden">
+        <div className="absolute -top-40 -left-40 w-96 h-96 rounded-full bg-gradient-to-r from-purple-600/20 to-pink-500/20 blur-2xl"></div>
+        <div className="absolute top-20 right-20 w-80 h-80 rounded-full bg-gradient-to-r from-blue-400/20 to-teal-300/20 blur-2xl"></div>
+        <div className="absolute bottom-10 left-1/3 w-64 h-64 rounded-full bg-gradient-to-r from-pink-500/20 to-purple-600/20 blur-2xl"></div>
+      </div>
+      
+      <Navbar {...currentUser}/>
+      <div className="max-w-3xl mx-auto mt-20 text-center">
+          <p className="text-blue-300 text-2xl">
+            Connect with people around the world to discuss equality challenges and share solutions.
+          </p>
+        </div>
+      
+      <div className="container mx-auto py-24 px-4 relative z-10">
+        <Card className="max-w-3xl mx-auto bg-[#0C1E4D]/80 border border-blue-500/30 backdrop-blur-sm shadow-xl text-blue-100">
+          <CardHeader className="border-b border-blue-500/20 bg-[#0C1E4D]/90">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-white flex items-center gap-2">
+                <Users size={20} className="text-blue-300" />
+                Global Chat Room
+              </CardTitle>
+              <div className="text-sm text-blue-300">
+                {messages.length} messages
+              </div>
+            </div>
+          </CardHeader>
+          
+          <CardContent className="pt-6 pb-4">
+            <div className="h-96 overflow-y-auto mb-4 space-y-3 flex flex-col-reverse custom-scrollbar">
+              {messages.length === 0 ? (
+                <div className="text-center text-blue-300 py-10">
+                  <div className="opacity-60 mb-2">💬</div>
+                  <p>No messages yet. Be the first to start the conversation!</p>
                 </div>
-              ))
-            )}
-            <div ref={messagesEndRef} />
-          </div>
-        </CardContent>
-        <CardFooter>
-          <form onSubmit={handleSendMessage} className="flex w-full gap-2">
-            <Input
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Type your message..."
-              className="flex-1"
-            />
-            <Button type="submit" disabled={!newMessage.trim()}>
-              Send
-            </Button>
-          </form>
-        </CardFooter>
-      </Card>
-    </div>
+              ) : (
+                messages.map((message) => (
+                  <div
+                    key={message.$id}
+                    className={`flex ${message.userId === currentUser?.accountId ? 'justify-end' : 'justify-start'}`}
+                  >
+                    <div
+                      className={`relative max-w-xs p-3 rounded-lg shadow-md ${
+                        message.userId === currentUser?.accountId 
+                          ? 'bg-gradient-to-r from-purple-600/90 to-pink-500/90 text-white' 
+                          : 'bg-[#081635]/70 border border-blue-500/20 text-blue-100'
+                      }`}
+                    >
+                      <div className={`font-semibold ${
+                        message.userId === currentUser?.accountId 
+                          ? 'text-blue-100' 
+                          : 'text-blue-300'
+                      }`}>{message.username}</div>
+                      <div className="py-1">{message.message}</div>
+                      <div className="text-xs opacity-70 pt-1">
+                        {new Date(message.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                      </div>
+                      
+                      {message.userId === currentUser?.accountId && (
+                        <button
+                          onClick={() => handleDeleteMessage(message.$id)}
+                          disabled={isDeletingMessage === message.$id}
+                          className={`absolute top-1 right-1 p-1 rounded-full 
+                            hover:bg-black/20
+                            transition-colors`}
+                          aria-label="Delete message"
+                        >
+                          {isDeletingMessage === message.$id ? (
+                            <div className="h-4 w-4 rounded-full border-2 border-t-transparent animate-spin" />
+                          ) : (
+                            <Trash2 size={16} className="text-blue-100 opacity-70 hover:opacity-100" />
+                          )}
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                ))
+              )}
+              <div ref={messagesEndRef} />
+            </div>
+          </CardContent>
+          
+          <CardFooter className="border-t border-blue-500/20 bg-[#0C1E4D]/90">
+            <form onSubmit={handleSendMessage} className="flex w-full gap-2">
+              <Input
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder="Type your message..."
+                className="flex-1 bg-[#081635]/80 border-blue-500/30 text-blue-100 placeholder:text-blue-300/50 focus:border-blue-400 focus:ring-blue-400/20"
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    handleSendMessage(e);
+                  }
+                }}
+              />
+              <Button 
+                type="submit" 
+                disabled={!newMessage.trim()}
+                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white border-none"
+              >
+                <Send size={18} className="mr-1" />
+                Send
+              </Button>
+            </form>
+          </CardFooter>
+        </Card>
+        
+        
+      </div>
+      
+      <style jsx global>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: rgba(8, 22, 53, 0.3);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(59, 130, 246, 0.3);
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(59, 130, 246, 0.5);
+        }
+      `}</style>
     </div>
   );
 }
