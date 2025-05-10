@@ -43,6 +43,7 @@ const [client, setClient] = useState<Client | null>(null);
     const newClient = new Client()
       .setEndpoint(appwriteConfig.endpointUrl)
       .setProject(appwriteConfig.projectId);
+     
     setClient(newClient);
     setDatabases(new Databases(newClient));
   }, []);

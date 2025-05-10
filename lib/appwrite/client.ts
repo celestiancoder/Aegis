@@ -7,5 +7,6 @@ export const getAppwriteClient = () => {
     .setEndpoint(appwriteConfig.endpointUrl)
     .setProject(appwriteConfig.projectId);
   
+  
   return client;
 };

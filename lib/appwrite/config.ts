@@ -6,4 +6,5 @@ export const appwriteConfig={
     secretKey:process.env.NEXT_APPWRITE_KEY!,
     chatCollectionId:process.env.NEXT_PUBLIC_CHAT_COLLECTION!,
     geminikey:process.env.GEMINI_API_KEY!,
+    responseCollection:process.env.NEXT_PUBLIC_RESPONSES_COLLECTION!
 }

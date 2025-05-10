@@ -1,13 +1,13 @@
 export const dynamic = 'force-dynamic';
 import Navbar from "@/components/navbar/navbar";
 import { getCurrentUser } from "@/lib/actions/user.actions";
-import { redirect } from "next/navigation";
+// import { redirect } from "next/navigation";
 import Link from "next/link";
 
 
 const Home = async () => {
   const currentUser = await getCurrentUser();
-  if (!currentUser) return redirect("/sign-in");
+  // if (!currentUser) return redirect("/sign-in");
 
   return (
     <div className="min-h-screen bg-[#0B1940] relative overflow-hidden">
